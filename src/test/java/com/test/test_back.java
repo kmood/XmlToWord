@@ -253,13 +253,49 @@ public class test_back {
         String code = Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath(codeUrl.toURI().getPath()));
         map.put("code", code);
         map.put("mypicture2", Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath(titleUrl.toURI().getPath())));
-        map.put("title", Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath("F://image2.jpg")));
-        map.put("mypicture1", Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath("F://mypic.jpg")));
+        map.put("title", Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath(codeUrl.toURI().getPath())));
+        map.put("mypicture1", Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath(introUrl.toURI().getPath())));
 
 
         //编译输出
         DocumentProducer dp = new DocumentProducer(ActualModelPath);
-        String complie = dp.Complie(xmlPath, "picture_text.docx", true);
+        String complie = dp.Complie(xmlPath, "picture.docx", true);
+        dp.produce(map, ExportFilePath);
+    }
+
+    @Test
+    public void testpicurl_docx() throws Exception {
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        if (classLoader == null){
+            classLoader = ClassLoader.getSystemClassLoader();
+        }
+        String ActualModelPath = classLoader.getResource("./model/").toURI().getPath();
+        String xmlPath = classLoader.getResource("./model").toURI().getPath();
+        String ExportFilePath = classLoader.getResource(".").toURI().getPath() + "/picture_new.docx";
+
+        HashMap<String, Object> map = new HashMap<>();
+        //读取输出图片
+        URL introUrl = classLoader.getResource("./picture/exportTestPicture-intro.png");
+        HashMap introUrlmap = new HashMap();
+        introUrlmap.put("type","pic");
+        introUrlmap.put("url",introUrl.toURI().getPath());
+
+        URL codeUrl = classLoader.getResource("./picture/exportTestPicture-code.png");
+        URL titleUrl = classLoader.getResource("./picture/exportTestPicture-title.png");
+
+        String intro = Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath(introUrl.toURI().getPath()));
+        map.put("intro", introUrlmap);
+        String code = Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath(codeUrl.toURI().getPath()));
+        map.put("code", code);
+        map.put("mypicture2", Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath(titleUrl.toURI().getPath())));
+        map.put("title", Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath(codeUrl.toURI().getPath())));
+        map.put("mypicture1", Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath(introUrl.toURI().getPath())));
+        map.put("aaa", "test");
+        map.put("bbb", null);
+
+        //编译输出
+        DocumentProducer dp = new DocumentProducer(ActualModelPath);
+        String complie = dp.Complie(xmlPath, "picture.docx", true);
         dp.produce(map, ExportFilePath);
     }
 

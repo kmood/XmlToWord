@@ -199,7 +199,8 @@ public class DocumentProducer {
                     dealPicture((Map)mapItem,modelPath);
                 }
             }
-            String base64png=renderData.get(key)!=null? renderData.get(key).toString():"";
+//            String base64png=renderData.get(key)!=null? renderData.get(key).toString():"";
+            String base64png= FileUtils.convertParamsToBase64(renderData.get(key));
             String bas64flag=FileUtils.checkImageBase64Format(base64png);
             if("png".equalsIgnoreCase(bas64flag) || "jpg".equalsIgnoreCase(bas64flag) ||"jpeg".equalsIgnoreCase(bas64flag)){
                     if("jpg".equalsIgnoreCase(bas64flag)){
@@ -281,4 +282,7 @@ public class DocumentProducer {
             }
         }
     }
+
+
+
 }
