@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @Auther: SunBC
  * @Date: 2019/1/15 12:29
- * @Description:
+ * @Description:  TODO 待解决 1.xml的模板导出目前出错，仅支持docx的模板 2.docx生成的临时文件目录删除失败，不影响报告生成。
  */
 public class test {
 
@@ -164,30 +164,38 @@ public class test {
             String filePath3 = this.getClass().getClassLoader().getResource("./picture/exportTestPicture-title.png").toURI().getPath();
             String ExportFilePath = this.getClass().getClassLoader().getResource("./export").toURI().getPath() + "/包装说明表（范例A）-export.docx";
             HashMap<String, Object> map = new HashMap<>();
-            map.put("zzdhm", "yangzh-\n制造单\n号码测试号码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试码测试");
-            map.put("ydwcrq", "yangzh-预定完成日期");
-            map.put("cpmc", "yangzh-产品名称");
-            map.put("jyrq", "yangzh-交运日期");
-            map.put("sl", "yangzh-数量");
-            map.put("xs", "yangzh-箱数");
+            map.put("zzdhm", "yangzh-\n制造单\n测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容");
+            map.put("ydwcrq", "2024-12-30");
+            map.put("cpmc", "产品名称");
+            map.put("jyrq", "2024-12-02");
+            map.put("sl", "200");
+            map.put("xs", "100");
 
             ArrayList<Object> zxsmList = new ArrayList<>();
             HashMap<String, Object> zxsmmap = new HashMap<>();
-            zxsmmap.put("xh", "1tett");
-            zxsmmap.put("xs", "yangzh\n-箱数²");
-            zxsmmap.put("zrl", "yangzh-梅香");
-            zxsmmap.put("zsl", "kmood-交运日期");
-            zxsmmap.put("sm", "yangzh-交运日期");
-            zxsmmap.put("pictest", Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath( filePath3)));
-            zxsmmap.put("pictext_loop", Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath( filePath3)));
+            zxsmmap.put("xh", "01");
+            zxsmmap.put("xs", "10\n（箱数²）");
+            zxsmmap.put("zrl", "100");
+            zxsmmap.put("zsl", "50");
+            zxsmmap.put("sm", "2024-12-02");
+            // 图片方式一（推荐）：图片的绝对路径的地址
+            Map pictestMap=new HashMap();
+            pictestMap.put("type","pic");
+            pictestMap.put("url",filePath3);
+            Map pictext_loopMap=new HashMap();
+            pictext_loopMap.put("type","pic");
+            pictext_loopMap.put("url",filePath3);
+            zxsmmap.put("pictest", pictestMap);
+            zxsmmap.put("pictext_loop", pictext_loopMap);
 
             zxsmList.add(zxsmmap);
             HashMap<String, Object> zxsmmap1 = new HashMap<>();
-            zxsmmap1.put("xh", "yangzh-制造单号码");
+            zxsmmap1.put("xh", "02");
             zxsmmap1.put("xs", "kmood-预定完成日期");
             zxsmmap1.put("zrl","kmood-产品名称");
             zxsmmap1.put("zsl","kmood-交运日期");
             zxsmmap1.put("sm", "kmood-交运日期");
+            // 图片方式二（不推荐）：base64字符串，图片过大可能会失败
             zxsmmap1.put("pictest", Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath( filePath)));
             zxsmmap1.put("pictext_loop", Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath( filePath)));
 
