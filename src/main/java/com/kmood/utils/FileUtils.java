@@ -1,5 +1,6 @@
 package com.kmood.utils;
 
+import com.google.gson.Gson;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -9,9 +10,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Base64;
+import java.util.HashMap;
 
 public class FileUtils {
 	//readToStringByFilepath
+	static Gson  gson = JsonBinder.buildNormalBinder("yyyy-MM-dd HH:mm:ss");
 
 	public static String readToStringByFilepath(String filePath)throws IOException {
 		StringBuilder data = new StringBuilder();
@@ -87,6 +90,27 @@ public class FileUtils {
 		GenerateImage(base64ImgData,filePath);
 	}
 
+	/**
+	 * 图片传参占位识别，兼容base64, 如值为 {"type":"pic","url":"路径"} ,将路径转换为
+	 * @param param
+	 * @return
+	 */
+	public static String convertParamsToBase64(Object param){
+		String paramstr=param!=null?param.toString():"";
+//		System.out.println(param);
+		try{
+			HashMap map= gson.fromJson(gson.toJson(param), HashMap.class);
+			String type=map.get("type").toString();
+			if("pic".equalsIgnoreCase(type)){
+				String picurl=map.get("url").toString();
+				paramstr=Base64.getEncoder().encodeToString(FileUtils.readToBytesByFilepath(picurl));
+			}
+		}catch	(Exception e)
+		{
+
+		}
+		return  paramstr;
+	}
 
 	public static String GetImageStr(String imgPath) {// 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
 		String imgFile = imgPath;// 待处理的图片
