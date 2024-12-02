@@ -97,7 +97,7 @@ public class FileUtils {
 	 */
 	public static String convertParamsToBase64(Object param){
 		String paramstr=param!=null?param.toString():"";
-		System.out.println(param);
+//		System.out.println(param);
 		try{
 			HashMap map= gson.fromJson(gson.toJson(param), HashMap.class);
 			String type=map.get("type").toString();
